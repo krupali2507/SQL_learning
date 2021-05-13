@@ -1,75 +1,57 @@
-SELECT * FROM Employees;
-SELECT * FROM Jobs;
-SELECT * FROM Jobs_History;
-SELECT * FROM Departments;
-SELECT * FROM LOCATIONS;
+--Exercise 1: CREATE Table PETRESCUE and Insert Data into it.
 
--- Execute a failing query (i.e. one which gives an error) to retrieve all employees 
--- records whose salary is lower than the average salary.
+SELECT * FROM PETRESCUE;
 
-SELECT * FROM EMPLOYEES WHERE SALARY < AVG(SALARY);
+-- Exercise 2: Aggregate Functions
+-- Query A1: Enter a function that calculates the total cost of all animal rescues in the PETRESCUE table.
+SELECT SUM(COST) AS Total_cost FROM PETRESCUE;
 
--- Execute a working query using a sub-select to retrieve all employees 
--- records whose salary is lower than the average salary.
-
-SELECT * FROM Employees WHERE SALARY < (SELECT AVG(SaLARY) FROM EMPLOYEES);
-
--- Execute a failing query (i.e. one which gives an error) to retrieve all employees
--- records with EMP_ID, SALARY and maximum salary as MAX_SALARY in every row.
-
-SELECT EMP_ID,SALARY, MAX(SALARY) AS MAX_SALARY FROM EMPLOYEES;
-
--- Execute a Column Expression that retrieves all employees 
--- with EMP_ID, SALARY and maximum salary as MAX_SALARY in every row.
-
-SELECT EMP_ID,SALARY,(SELECT MAX(SALARY) AS MAX_SALARY FROM EMPLOYEES) FROM Employees;
-
--- Execute a Table Expression for the EMPLOYEES table that excludes columns 
--- with sensitive employee data (i.e. does not include columns: SSN, B_DATE, SEX, ADDRESS, SALARY).
-
-SELECT * FROM (SELECT EMP_ID,F_NAME,L_NAME,DEP_ID FROM EMPLOYEES) AS EMP4ALL;
-
--- Retrieve only the EMPLOYEES records that correspond to jobs in the JOBS table.
-
-SELECT * FROM EMPLOYEES
-WHERE JOB_ID IN(SELECT JOB_IDENT FROM JOBS);
-
-SELECT * 
-FROM EMPLOYEES,JOBS
-WHERE EMPLOYEES.JOB_ID = JOBS.JOB_IDENT;
-
--- Redo the previous query, using shorter aliases for table names.
-SELECT * FROM EMPLOYEES AS E,JOBS AS J
-WHERE E.JOB_ID = J.JOB_IDENT;
+-- Query A2: Enter a function that displays the total cost of all animal rescues in the PETRESCUE table in a column called SUM_OF_COST.
+SELECT SUM(COST) AS SUM_OF_COST FROM PETRESCUE;
 
 
--- Redo the previous query, but retrieve only the Employee ID, Employee Name and Job Title.
-SELECT EMP_ID,F_NAME,L_NAME,JOB_TITLE
-FROM EMPLOYEES AS E,JOBS AS J
-WHERE E.JOB_ID = J.JOB_IDENT;
+--Query A3: Enter a function that displays the maximum quantity of animals rescued.
+SELECT MAX(Quantity) FROM PETRESCUE;
+
+-- Query A4: Enter a function that displays the average cost of animals rescued.
+SELECT AVG(COST) FROM PETRESCUE;
+
+-- Query A5: Enter a function that displays the average cost of rescuing a dog.
+select AVG( COST / QUANTITY ) from PETRESCUE where ANIMAL = 'Dog';
 
 
--- Retrieve only the list of employees whose JOB_TITLE is Jr. Designer.
-SELECT * FROM EMPLOYEES WHERE JOB_ID IN
-	(SELECT JOB_IDENT FROM JOBS WHERE JOB_TITLE = 'Jr. Designer')
+-- Exercise 3: Scalar and String Functions
+-- Query B1: Enter a function that displays the rounded cost of each rescue.
+SELECT ROUND(COST,0) FROM PETRESCUE;
+
+-- Query B2: Enter a function that displays the length of each animal name.
+SELECT LEN(Animal) FROM PETRESCUE;
+
+-- Query B3: Enter a function that displays the animal name in each rescue in uppercase.
+SELECT UPPER(Animal) FROM PETRESCUE;
+
+-- Query B4: Enter a function that displays the animal name in each rescue in uppercase without duplications.
+SELECT DISTINCT(UPPER(Animal)) FROM PETRESCUE;
+
+-- Query B5: Enter a query that displays all the columns from the PETRESCUE table, 
+-- where the animal(s) rescued are cats. Use cat in lower case in the query.
+SELECT * FROM PETRESCUE WHERE LOWER(Animal) = 'cat';
+
+-- Exercise 4: Date and Time Functions
+-- Query C1: Enter a function that displays the day of the month when cats have been rescued.
+SELECT DAY(RESCUEDATE) FROM PETRESCUE WHERE Animal='cat';
 
 
--- Retrieve JOB information and list of employees who earn more than $70,000.
-SELECT E.* , JOB_Title FROM EMPLOYEES AS E
-LEFT JOIN JOBS AS J
-ON E.JOB_ID = J.JOB_IDENT
-WHERE SALARY > 70000;
+-- Query C2: Enter a function that displays the number of rescues on the 5th month.
+SELECT SUM(Quantity) FROM PETRESCUE WHERE MONTH(RESCUEDATE) = 5;
 
--- Retrieve JOB information and list of employees whose birth year is after 1976.
-SELECT * FROM JOBS WHERE JOB_IDENT IN 
-	(SELECT JOB_ID FROM EMPLOYEES WHERE YEAR(B_DATE) > 1976 AND SEX = 'F') 
+-- Query C3: Enter a function that displays the number of rescues on the 14th day of the month.
+SELECT SUM(Quantity) FROM PETRESCUE WHERE DAY(RESCUEDATE) = 14;
 
-SELECT * FROM EMPLOYEES
-LEFT JOIN  JOBS 
-ON JOB_ID = JOB_IDENT
-WHERE YEAR(B_DATE) > 1976 AND SEX = 'F'
-ORDER BY JOB_ID;
+-- Query C4: Animals rescued should see the vet within three days of arrivals. 
+-- Enter a function that displays the third day from each rescue.
+SELECT DATEADD(DD,3,RESCUEDATE) FROM PETRESCUE;
 
-
--- Perform an implicit cartesian/cross join between EMPLOYEES and JOBS tables.
-SELECT * FROM EMPLOYEES,JOBS;
+-- Query C5: Enter a function that displays the length of time the animals have been rescued; 
+-- the difference between today’s date and the rescue date.
+SELECT DATEDIFF(day,RESCUEDATE,GETDATE()) FROM PETRESCUE;

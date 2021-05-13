@@ -1,0 +1,23 @@
+1) Execute a failing query (i.e. one which gives an error) to retrieve all employees records whose salary is lower than the average salary.
+
+2) Execute a working query using a sub-select to retrieve all employees records whose salary is lower than the average salary.
+
+3) Execute a failing query (i.e. one which gives an error) to retrieve all employees records with EMP_ID, SALARY and maximum salary as MAX_SALARY in every row.
+
+4) Execute a Column Expression that retrieves all employees with EMP_ID, SALARY and maximum salary as MAX_SALARY in every row.
+
+5) Execute a Table Expression for the EMPLOYEES table that excludes columns with sensitive employee data (i.e. does not include columns: SSN, B_DATE, SEX, ADDRESS, SALARY).
+
+6) Retrieve only the EMPLOYEES records that correspond to jobs in the JOBS table.
+
+7) Redo the previous query, using shorter aliases for table names.
+
+8) Redo the previous query, but retrieve only the Employee ID, Employee Name and Job Title.
+
+9) Retrieve only the list of employees whose JOB_TITLE is Jr. Designer
+
+10) Retrieve JOB information and list of employees who earn more than $70,000.
+
+11) Retrieve JOB information and list of employees whose birth year is after 1976.
+
+12) Perform an implicit cartesian/cross join between EMPLOYEES and JOBS tables.

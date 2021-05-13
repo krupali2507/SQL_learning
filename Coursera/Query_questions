@@ -14,7 +14,7 @@
 
 8) Redo the previous query, but retrieve only the Employee ID, Employee Name and Job Title.
 
-9) Retrieve only the list of employees whose JOB_TITLE is Jr. Designer.
+9) Retrieve only the list of employees whose JOB_TITLE is Jr. Designer
 
 10) Retrieve JOB information and list of employees who earn more than $70,000.
 
